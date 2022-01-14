@@ -1,0 +1,27 @@
+name: Danger
+
+on:
+  pull_request:
+    types: [synchronize, opened, reopened, labeled, unlabeled, edited]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    name: "Run Danger"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Danger
+      run: npm install -g danger
+    - name: Cache spm
+      uses: actions/cache@v2
+      with:
+        path: .build
+        key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+        restore-keys: |
+          ${{ runner.os }}-spm-
+    - name: Run Danger
+      run: |
+        cd ./.github/Danger
+        swift run danger-swift ci --cache-path ../../.build --build-path ../../.build --cwd ../../ -base main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

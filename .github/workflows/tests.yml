@@ -1,0 +1,16 @@
+name: build
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    name: "Run Tests"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Select Xcode Version
+      run: sudo xcode-select --switch /Applications/Xcode_13.2.1.app # (13C100)
+    - name: Run tests
+      run: xcodebuild test -scheme PlayButton -destination "OS=15.2,name=iPhone 11"
