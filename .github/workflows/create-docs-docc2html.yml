@@ -1,0 +1,40 @@
+name: Create Documentation (docc2html)
+
+on:
+  release:
+    types: [published]
+    
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Select Xcode Version
+      run: sudo xcode-select --switch /Applications/Xcode_13.2.1.app
+    - name: Create DocC archive
+      run: |
+        xcodebuild docbuild -scheme PlayButton -destination "name=iPhone 11" -derivedDataPath tmp/derivedData
+        cp -r $(find tmp/derivedData -type d -name 'PlayButton.doccarchive') ./PlayButton.doccarchive
+    - name: Checkout docc2html
+      uses: actions/checkout@v2
+      with:
+        repository: DoccZz/docc2html
+        path: docc2html
+    - name: Run docc2html
+      run: | 
+        cd docc2html
+        swift run docc2html ${{ github.workspace }}/PlayButton.doccarchive ../documentation
+    - name: Get version number
+      id: version
+      run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+    - uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./documentation/
+        publish_branch: docs
+        destination_dir: ./${{ steps.version.outputs.tag }}
+        keep_files: false
+        force_orphan: true
+        full_commit_message: Update documentation for ${{ steps.version.outputs.tag }}

@@ -1,8 +1,9 @@
-name: Create documentation
+name: Create Documentation
 
-on:
-  release:
-    types: [published]
+on: 
+    workflow_dispatch:
+    release:
+        types: [published]
     
 jobs:
   build:
@@ -11,30 +12,73 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with: 
+        fetch-depth: 0
+        
+    - name: 'Get Current Version'
+      id: currentversion
+      uses: "WyriHaximus/github-action-get-previous-tag@v1"
+      with:
+        fallback: v1.0.0
+          
     - name: Select Xcode Version
       run: sudo xcode-select --switch /Applications/Xcode_13.2.1.app
-    - name: Create DocC archive
+    
+    - name: Set Correct Node Version
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+      
+    - name: Create Symbol Graph
       run: |
-        xcodebuild docbuild -scheme PlayButton -destination "name=iPhone 11" -derivedDataPath tmp/derivedData
-        cp -r $(find tmp/derivedData -type d -name 'PlayButton.doccarchive') ./PlayButton.doccarchive
-    - name: Checkout docc2html
+        mkdir -p .build/swift-docc-symbol-graphs
+        xcodebuild docbuild \
+          -scheme PlayButton -destination "generic/platform=iOS" -derivedDataPath .build/derivedData
+        cp $(find .build/derivedData -name PlayButton.symbols.json) .build/swift-docc-symbol-graphs
+
+    - name: Checkout Swift-DocC-Render
       uses: actions/checkout@v2
       with:
-        repository: DoccZz/docc2html
-        path: docc2html
-    - name: Run docc2html
-      run: | 
-        cd docc2html
-        swift run docc2html ${{ github.workspace }}/PlayButton.doccarchive ../documentation
-    - name: Get version number
-      id: version
-      run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+        repository: apple/swift-docc-render
+        path: swift-docc-render
+    - name: Build Swift-DocC-Render
+      working-directory: swift-docc-render
+      run: |
+        npm install
+        npm run build
+        echo "DOCC_HTML_DIR=../swift-docc-render/dist" >> $GITHUB_ENV
+    
+    - name: Checkout Swift-DocC
+      uses: actions/checkout@v2
+      with:
+        repository: apple/swift-docc
+        path: swift-docc
+    - name: Build Swift-DocC
+      working-directory: swift-docc
+      run: |
+        swift build
+        swift run docc convert \
+          --transform-for-static-hosting \
+          --fallback-bundle-version ${{ steps.currentversion.outputs.tag }} \
+          --hosting-base-path 'play-button' \
+          --additional-symbol-graph-dir ../.build/swift-docc-symbol-graphs \
+          --output-dir docs \
+          ../Sources/PlayButton.docc
+    
+    - name: Patch favicons
+      working-directory: swift-docc
+      run: |
+        find docs -name index.html -exec sed -i '' 's#\<link rel=\"icon\" href=\"/play-button/favicon.ico\"\>\<link rel=\"mask-icon\" href=\"/play-button/favicon.svg\" color=\"\#333333\"\>#\<link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/play-button/apple-touch-icon.png\"\>\<link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/play-button/favicon-32x32.png\"\>\<link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"/play-button/favicon-16x16.png\"\>\<link rel=\"manifest\" href=\"/play-button/site.webmanifest\"\>#g' {} \;
+        find docs -name index.html -exec sed -i '' 's#\<link rel=\"icon\" href=\"/favicon.ico\"\>\<link rel=\"mask-icon\" href=\"/favicon.svg\" color=\"\#333333\"\>#\<link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/apple-touch-icon.png\"\>\<link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/favicon-32x32.png\"\>\<link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"/favicon-16x16.png\"\>\<link rel=\"manifest\" href=\"/site.webmanifest\"\>#g' {} \;
+        rm docs/favicon.svg
+        cp -f ../.github/favicons/* docs
+
     - uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./documentation/
+        publish_dir: ./swift-docc/docs
         publish_branch: docs
-        destination_dir: ./${{ steps.version.outputs.tag }}
+        destination_dir: ./docs
         keep_files: false
         force_orphan: true
-        full_commit_message: Update documentation for ${{ steps.version.outputs.tag }}
+        full_commit_message: Update documentation
