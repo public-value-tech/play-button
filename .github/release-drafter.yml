@@ -5,5 +5,4 @@ template: |
 
   $CHANGES
   
-  [Docs](https://public-value-tech.github.io/v$NEXT_PATCH_VERSION/documentation/playbutton/index.html)
 change-template: "TITLE (#$NUMBER thanks @$AUTHOR)"
