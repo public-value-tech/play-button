@@ -1,5 +1,9 @@
 # PlayButton
 
+[![build](https://github.com/public-value-tech/play-button/actions/workflows/tests.yml/badge.svg)](https://github.com/public-value-tech/play-button/actions/workflows/tests.yml)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fpublic-value-tech%2Fplay-button%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/public-value-tech/play-button)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fpublic-value-tech%2Fplay-button%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/public-value-tech/play-button)
+
 A button that can render four different playback related modes and animate between them.
 
 ![Different play button appearances](.github/play-button-overview.png)
