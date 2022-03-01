@@ -59,4 +59,4 @@ The tests mostly consist of snapshot tests. We use a `CADisplayLink` to sample s
 
 ### How it all started
 
-You may wonder what's so special about this play button. In [this article](https://medium.com/br-next/open-sourcing-our-br-radio-playbutton-5f0b14bb7e01) we describe the difficulties we have faced implementing a interruptible and reversible animation in Core Animation.
+You may wonder what's so special about this play button. In [this article](https://medium.com/br-next/open-sourcing-our-br-radio-playbutton-5f0b14bb7e01) we describe the difficulties we have faced implementing a ninterruptible and reversible animation in Core Animation.
