@@ -22,7 +22,7 @@ jobs:
         fallback: v1.0.0
           
     - name: Select Xcode Version
-      run: sudo xcode-select --switch /Applications/Xcode_13.2.1.app
+      run: sudo xcode-select --switch /Applications/Xcode_14.1.app
     
     - name: Set Correct Node Version
       uses: actions/setup-node@v2
