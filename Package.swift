@@ -16,7 +16,7 @@ let package = Package(
     ),
   ],
   dependencies: [
-    .package(name: "SnapshotTesting", url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.9.0")
+    .package(name: "SnapshotTesting", url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.10.0")
   ],
   targets: [
     .target(
@@ -26,7 +26,10 @@ let package = Package(
     ),
     .testTarget(
       name: "PlayButtonTests",
-      dependencies: ["PlayButton", "SnapshotTesting"],
+      dependencies: [
+        "PlayButton",
+        .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
+      ],
       resources: [
         .copy("__Snapshots__")
       ]
