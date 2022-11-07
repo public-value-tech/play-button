@@ -13,8 +13,7 @@ extension CALayer {
   func addBasicAnimationSyncingModelWithPresentationLayer(animation: CABasicAnimation, forKey key: String? = nil) {
     guard let keypath = animation.keyPath else { fatalError("animation needs a keypath") }
 
-    let isCurrentlyAnimatingProperty = (self.animation(forKey: keypath) ?? key.flatMap { self.animation(forKey: $0) }) != nil
-    let referenceLayer = isCurrentlyAnimatingProperty ? (presentation() ?? self) : self
+    let referenceLayer = presentation() ?? self
     animation.fromValue = referenceLayer.value(forKey: keypath)
 
     // update the property in advance
@@ -28,9 +27,8 @@ extension CALayer {
 
   func addKeyframeAnimationSyncingModelWithPresentationLayer(animation: CAKeyframeAnimation, forKey key: String? = nil) {
     guard let keypath = animation.keyPath else { fatalError("animation needs a keypath") }
-    // if the property is not currently animated we just use the model layer to get the current value
-    let isCurrentlyAnimatingProperty = (self.animation(forKey: keypath) ?? key.flatMap { self.animation(forKey: $0) }) != nil
-    let referenceLayer = isCurrentlyAnimatingProperty ? (presentation() ?? self) : self
+
+    let referenceLayer = presentation() ?? self
     let currentValue = referenceLayer.value(forKey: keypath)
 
     if var values = animation.values, (values.first as? NSValue) != (currentValue as? NSValue), let currentValue = currentValue {
