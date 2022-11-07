@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Select Xcode Version
-      run: sudo xcode-select --switch /Applications/Xcode_13.2.1.app
+      run: sudo xcode-select --switch /Applications/Xcode_14.1.app
     - name: Create DocC archive
       run: |
         xcodebuild docbuild -scheme PlayButton -destination "name=iPhone 11" -derivedDataPath tmp/derivedData
