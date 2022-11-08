@@ -21,7 +21,7 @@ final class PlayButtonTests: XCTestCase {
     windowView = vc.view
 
     SnapshotTesting.diffTool = "ksdiff"
-    //		isRecording = true
+//    isRecording = true
   }
 
   func testPlayToPause() {
@@ -224,6 +224,60 @@ final class PlayButtonTests: XCTestCase {
     XCTAssertEqual(button.isStop, false)
     button.setStop(true, animated: false)
     XCTAssertEqual(button.isStop, true)
+  }
+
+  func testScaleAspectFillWidthGreaterThanHeight() {
+    let button = PlayButton(frame: CGRect(x: 0, y: 0, width: 60, height: 30))
+    button.backgroundColor = .blue
+    button.contentMode = .scaleAspectFill
+
+    windowView.addSubview(button)
+    assertSnapshot(matching: button, as: .image)
+  }
+
+  func testScaleAspectFillHeightGreaterThanWidth() {
+    let button = PlayButton(frame: CGRect(x: 0, y: 0, width: 30, height: 60))
+    button.backgroundColor = .blue
+    button.contentMode = .scaleAspectFill
+
+    windowView.addSubview(button)
+    assertSnapshot(matching: button, as: .image)
+  }
+
+  func testScaleAspectFitWidthGreaterThanHeight() {
+    let button = PlayButton(frame: CGRect(x: 0, y: 0, width: 60, height: 30))
+    button.backgroundColor = .blue
+    button.contentMode = .scaleAspectFit
+
+    windowView.addSubview(button)
+    assertSnapshot(matching: button, as: .image)
+  }
+
+  func testScaleAspectFitHeightGreaterThanWidth() {
+    let button = PlayButton(frame: CGRect(x: 0, y: 0, width: 30, height: 60))
+    button.backgroundColor = .blue
+    button.contentMode = .scaleAspectFit
+
+    windowView.addSubview(button)
+    assertSnapshot(matching: button, as: .image)
+  }
+
+  func testScaleToFillWidthGreaterThanHeight() {
+    let button = PlayButton(frame: CGRect(x: 0, y: 0, width: 60, height: 30))
+    button.backgroundColor = .blue
+    button.contentMode = .scaleToFill
+
+    windowView.addSubview(button)
+    assertSnapshot(matching: button, as: .image)
+  }
+
+  func testScaleToFillHeightGreaterThanWidth() {
+    let button = PlayButton(frame: CGRect(x: 0, y: 0, width: 30, height: 60))
+    button.backgroundColor = .blue
+    button.contentMode = .scaleToFill
+
+    windowView.addSubview(button)
+    assertSnapshot(matching: button, as: .image)
   }
 }
 

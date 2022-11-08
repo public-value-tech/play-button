@@ -179,8 +179,25 @@ public class PlayButton: UIButton {
       yScale = scale
     }
 
-    let xTranslate = (xScale - 1) * scaleLayer.bounds.width / 2
-    let yTranslate = (yScale - 1) * scaleLayer.bounds.height / 2
+    var xTranslate = (xScale - 1.0) * scaleLayer.bounds.height / 2.0
+    var yTranslate = (yScale - 1.0) * scaleLayer.bounds.width / 2.0
+
+    switch contentMode {
+    case .scaleToFill:
+      break
+    case .scaleAspectFill:
+      if bounds.width < bounds.height {
+        xTranslate += (bounds.width - xScale * scaleLayer.bounds.width) / 2.0
+      } else if bounds.width > bounds.height {
+        yTranslate += (bounds.height - yScale * scaleLayer.bounds.height) / 2.0
+      }
+    default:
+      if bounds.width > bounds.height {
+        xTranslate += (bounds.width - xScale * scaleLayer.bounds.width) / 2.0
+      } else if bounds.width < bounds.height {
+        yTranslate += (bounds.height - yScale * scaleLayer.bounds.height) / 2.0
+      }
+    }
 
     scaleLayer.transform = CATransform3DConcat(
       CATransform3DMakeScale(xScale, yScale, 1),
