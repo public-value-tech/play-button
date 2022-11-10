@@ -50,8 +50,7 @@ playButton.addTarget(self, action: #selector(playButtonTapped), for: .primaryAct
 
 ### Documentation
 
-Check out the [documentation](https://public-value-tech.github.io/play-button/documentation/playbutton) or just compile it yourself when you add the package to your projects. 
-The documentation is created using the current versions of [swift-docc](https://github.com/apple/swift-docc) and [swift-docc-render](https://github.com/apple/swift-docc-render) to create a static website served via GitHub Pages. Once Swift 5.6 is released we can hopefully use `transform-for-static-hosting` on the [docc compiler directly](https://forums.swift.org/t/support-hosting-docc-archives-in-static-hosting-environments/53572). If the folks at [Swift Package Index](https://swiftpackageindex.com) decide to host the documentation directly, we will add support for this package as well if necessary.
+Check out the [documentation](https://swiftpackageindex.com/public-value-tech/play-button/documentation/playbutton) or just compile it yourself when you add the package to your projects. 
 
 ### Tests
 
