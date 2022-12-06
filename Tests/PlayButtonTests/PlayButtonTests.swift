@@ -279,6 +279,20 @@ final class PlayButtonTests: XCTestCase {
     windowView.addSubview(button)
     assertSnapshot(matching: button, as: .image)
   }
+
+  func testOpticalAlignment() {
+    let button = PlayButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+    button.playBufferingBackgroundColor = .systemBlue
+    button.playBufferingTintColor = .white
+
+    let circle = CircleView(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
+    button.addSubview(circle)
+    circle.center = button.center
+
+    windowView.addSubview(button)
+
+    assertSnapshot(matching: button, as: .image, named: "play_optical_alignment")
+  }
 }
 
 private enum CompletionCondition {
@@ -376,5 +390,24 @@ extension CALayer {
     let rasterizedView = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
     return rasterizedView
+  }
+}
+
+class CircleView: UIView {
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    backgroundColor = .clear
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  override func draw(_ rect: CGRect) {
+    guard let context = UIGraphicsGetCurrentContext() else {return}
+
+    context.setLineWidth(1)
+    context.setStrokeColor(UIColor.green.cgColor)
+    context.strokeEllipse(in: rect.insetBy(dx: 1, dy: 1))
   }
 }
