@@ -296,9 +296,10 @@ public class PlayButton: UIButton {
 
   /// Visual corretion for "centering" the triangle
   private var triangleXOffset: CGFloat {
-    let rightTipToBackgroundCircleDistance = (shapeWidth - triangleWidth) / 2.0
-    let topLeftToBackgroundCircleDistance = shapeWidth / 2.0 - sqrt(pow(triangleWidth, 2) + pow(triangleWidth, 2)) / 2.0
-    return (rightTipToBackgroundCircleDistance - topLeftToBackgroundCircleDistance) / 2.0
+    let centroidX = triangleWidth / 3.0
+    let centerX = triangleWidth / 2.0
+
+    return floor(centerX - centroidX)
   }
 
   /// This is the horizontal spacing between the end points of the triangle's first two bezier curves.
@@ -356,7 +357,6 @@ public class PlayButton: UIButton {
       if #available(macCatalyst 13.0, iOS 13.0, *) {
         addGestureRecognizer(UIHoverGestureRecognizer(target: self, action: #selector(hover)))
       }
-
 
       if #available(macCatalyst 13.4, iOS 13.4, *) {
         isPointerInteractionEnabled = true

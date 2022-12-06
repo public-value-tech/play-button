@@ -40,7 +40,7 @@ extension CGPath {
       let intersectionX = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4))
       let intersectionY = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4))
 
-      let arcCenter = CGPoint(x: floor(intersectionX), y: floor(intersectionY))
+      let arcCenter = CGPoint(x: (intersectionX), y: (intersectionY))
       let startAngle = fromAngle - (.pi / 2.0)
 
       let createCubicBezierFromArc: (_ angle: CGFloat, _ rotationOffset: CGFloat) -> (start: CGPoint, end: CGPoint, c1: CGPoint, c2: CGPoint) = { angle, rotationOffset in
@@ -117,6 +117,7 @@ extension CGPath {
     }
 
     path.closeSubpath()
+
     return (path, firstBezierEndPointXSpacing)
   }
 
