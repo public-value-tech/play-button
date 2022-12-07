@@ -1,5 +1,5 @@
 /// A visual mode a play button can be in.
-public enum Mode: Int {
+public enum PlayButtonMode: Int {
   /// The mode indicates a buffering state.
   case buffering
 

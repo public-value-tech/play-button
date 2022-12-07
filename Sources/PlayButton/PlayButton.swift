@@ -6,7 +6,7 @@ public class PlayButton: UIButton {
   /// The target state of the button.
   ///
   /// When the button is currently animating this is the mode it's animating to.
-  public private(set) var mode: Mode = .play
+  public private(set) var mode: PlayButtonMode = .play
 
   override public var isEnabled: Bool {
     didSet {
@@ -114,7 +114,7 @@ public class PlayButton: UIButton {
     commonInit()
   }
 
-  /// Sets the slider’s current value, allowing you to animate the change visually.
+  /// Sets the buttons’s current value, allowing you to animate the change visually.
   ///
   /// If you specify the same mode that the button is already in, nothing happens.
   ///
@@ -126,7 +126,7 @@ public class PlayButton: UIButton {
   ///   actual buffering keyframe animation will always be run repeatedly. Defaults to `true`.
   ///
   ///   - Note:When the application is not in an active state the `animated` parameter is ignored.
-  public func setMode(_ mode: Mode, animated: Bool = true) {
+  public func setMode(_ mode: PlayButtonMode, animated: Bool = true) {
     let shouldAnimate = UIApplication.shared.applicationState == .active && animated
 
     // if the change should be animated we only animate when there is a change
@@ -588,7 +588,7 @@ public class PlayButton: UIButton {
     return line
   }
 
-  private func shapePath(for mode: Mode? = nil, isLeft: Bool) -> CGPath {
+  private func shapePath(for mode: PlayButtonMode? = nil, isLeft: Bool) -> CGPath {
     switch mode ?? self.mode {
     case .pause:
       return pausePath(isLeft: isLeft)
