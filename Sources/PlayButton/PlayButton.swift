@@ -294,13 +294,6 @@ public class PlayButton: UIButton {
   private var shapeWidth: CGFloat { leftShape.bounds.width }
   private var shapeHeight: CGFloat { leftShape.bounds.height }
 
-  /// Visual corretion for "centering" the triangle
-  private var triangleXOffset: CGFloat {
-    let rightTipToBackgroundCircleDistance = (shapeWidth - triangleWidth) / 2.0
-    let topLeftToBackgroundCircleDistance = shapeWidth / 2.0 - sqrt(pow(triangleWidth, 2) + pow(triangleWidth, 2)) / 2.0
-    return (rightTipToBackgroundCircleDistance - topLeftToBackgroundCircleDistance) / 2.0
-  }
-
   /// This is the horizontal spacing between the end points of the triangle's first two bezier curves.
   /// It's used to calculate helper points along the straight lines of the bar and square paths.
   private var triangleBezierXSpacing: CGFloat = 0.0
@@ -356,7 +349,6 @@ public class PlayButton: UIButton {
       if #available(macCatalyst 13.0, iOS 13.0, *) {
         addGestureRecognizer(UIHoverGestureRecognizer(target: self, action: #selector(hover)))
       }
-
 
       if #available(macCatalyst 13.4, iOS 13.4, *) {
         isPointerInteractionEnabled = true
@@ -481,19 +473,20 @@ public class PlayButton: UIButton {
   // ▶️
   /// The path of the triangle is only calculated when necessary and cached in ``currentTrianglePath``.
   private func updateTrianglePath() {
-    let xOffset = triangleXOffset
+    let r: CGFloat = 5.0 / 8.0 * triangleWidth
+    let centerOffset = shapeWidth / 2.0
 
     let topLeft = CGPoint(
-      x: (shapeWidth - triangleWidth) / 2.0 + xOffset,
-      y: (shapeHeight - triangleWidth) / 2.0
+      x: -3.0 / 8.0 * triangleWidth + centerOffset,
+      y: -triangleWidth / 2.0 + centerOffset
     )
     let middleRight = CGPoint(
-      x: (shapeWidth + triangleWidth) / 2.0 + xOffset,
-      y: shapeHeight / 2.0
+      x: r + centerOffset,
+      y: 0 + centerOffset
     )
     let bottomLeft = CGPoint(
-      x: (shapeWidth - triangleWidth) / 2.0 + xOffset,
-      y: (shapeHeight + triangleWidth) / 2.0
+      x: topLeft.x,
+      y: triangleWidth / 2.0 + centerOffset
     )
 
     let (path, offset) = CGPath.createTriangleWithVertices(

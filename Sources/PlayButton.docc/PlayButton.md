@@ -79,6 +79,24 @@ Setting the ``PlayButton/PlayButton/triangleCornerRadius`` and ``PlayButton/Play
 
 > Note: Depending on the values some animations might look quirky.
 
+### Triangle point calculation
+
+![Sketch of triangle being centered in the circle using its centroid](trigonometry.png)
+
+In this picture `t` refers to ``PlayButton/PlayButton/triangleWidth`` in the PlayButton code. The radius `r` corresponds to the circle around the triangle's centroid which intersects with all three vertices. To get the coordinates of the vertices Pₙ (using the centroid as the local coordinate space's center) and center the triangle's circle within the play button's circle we have to shift the points with `c` using the button's width `s`.
+
+```
+r² = (½t)²+(t-r)² = ¼t²+t²+r²-2tr
+2tr = 5/4t²
+r = ⅝t
+
+c  = s/2
+
+P₁ = (-(t-r)+c, -t/2+c) = (-(t-⅝t)+c, -t/2+c) = (-⅜t+c, -t/2+c)
+P₂ = (r, 0)
+P₃ = (-t+r+c, t/2+c) = (-⅜t+c, t/2+c)
+```
+
 ## Topics
 
 ### Creating Play Buttons
