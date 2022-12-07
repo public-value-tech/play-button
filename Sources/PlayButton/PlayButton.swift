@@ -294,14 +294,6 @@ public class PlayButton: UIButton {
   private var shapeWidth: CGFloat { leftShape.bounds.width }
   private var shapeHeight: CGFloat { leftShape.bounds.height }
 
-  /// Visual corretion for "centering" the triangle
-  private var triangleXOffset: CGFloat {
-    let centroidX = triangleWidth / 3.0
-    let centerX = triangleWidth / 2.0
-
-    return floor(centerX - centroidX)
-  }
-
   /// This is the horizontal spacing between the end points of the triangle's first two bezier curves.
   /// It's used to calculate helper points along the straight lines of the bar and square paths.
   private var triangleBezierXSpacing: CGFloat = 0.0
