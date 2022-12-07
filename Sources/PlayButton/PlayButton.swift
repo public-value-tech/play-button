@@ -484,7 +484,7 @@ public class PlayButton: UIButton {
     let b1 = -(.pi - 2.0 * atan(1.0 / 2.0)) // top left
     let b2 = CGFloat(0) // middle right
     let b3 = .pi - (2.0 * atan(1.0 / 2.0)) // bottom left
-    let r: CGFloat = triangleWidth / (2.0 * sin(2.0 / 3.0 * .pi)) 
+    let r: CGFloat = 5.0 / 8.0 * triangleWidth
     let centerOffset = shapeWidth / 2.0 - r
     let px: (CGFloat, CGFloat) -> CGFloat = { r, b in
       r * (1.0 + cos(b))
