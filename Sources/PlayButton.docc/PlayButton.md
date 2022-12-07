@@ -12,7 +12,7 @@ The button can be usefull if you want to add a playful component to your music/a
 
 ## Modes
 
-There are four different modes. To set the mode you use the ``PlayButton/setMode(_:animated:)``. If `animated` is `false` the change occurs without an animation regardless which mode the button is currently in. Setting the mode to ``PlayButtonMode/buffering`` will always start the buffering animation, the `animated` parameter only determines whether the shape first transforms into the horizontal bar. If you set the mode without providing an `animated` parameter, the transition is animated by default.  
+There are four different modes. To set the mode you use the ``PlayButton/setMode(_:animated:)``. If `animated` is `false` the change occurs without an animation regardless which mode the button is currently in. Setting the mode to ``Mode/buffering`` will always start the buffering animation, the `animated` parameter only determines whether the shape first transforms into the horizontal bar. If you set the mode without providing an `animated` parameter, the transition is animated by default.  
 
 | Mode         | Description                                                         |
 | ------------ | ------------------------------------------------------------------- | 
@@ -120,10 +120,10 @@ P₃ = (-t+r+c, t/2+c) = (-⅜t+c, t/2+c)
 - ``PlayButton/triangleWidth`` 
 
 ### Modes
-- ``PlayButton/PlayButtonMode/buffering``
-- ``PlayButton/PlayButtonMode/pause``
-- ``PlayButton/PlayButtonMode/play``
-- ``PlayButton/PlayButtonMode/stop``
+- ``PlayButton/Mode/buffering``
+- ``PlayButton/Mode/pause``
+- ``PlayButton/Mode/play``
+- ``PlayButton/Mode/stop``
 
 ### Changing Modes
 
