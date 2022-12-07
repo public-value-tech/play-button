@@ -481,40 +481,28 @@ public class PlayButton: UIButton {
   // ▶️
   /// The path of the triangle is only calculated when necessary and cached in ``currentTrianglePath``.
   private func updateTrianglePath() {
-    let b1 = -(.pi - 2.0 * atan(1.0 / 2.0)) // top left
-    let b2 = CGFloat(0) // middle right
-    let b3 = .pi - (2.0 * atan(1.0 / 2.0)) // bottom left
+    let γ₁ = -(deg2rad(180) - 2.0 * atan(1.0 / 2.0)) // top left
+    let γ₂ = CGFloat(0) // middle right
+    let γ₃ = deg2rad(180) - (2.0 * atan(1.0 / 2.0)) // bottom left
+
     let r: CGFloat = 5.0 / 8.0 * triangleWidth
     let centerOffset = shapeWidth / 2.0 - r
-    let px: (CGFloat, CGFloat) -> CGFloat = { r, b in
-      r * (1.0 + cos(b))
+
+    let px: (CGFloat, CGFloat) -> CGFloat = { r, γ in
+      r * (1.0 + cos(γ)) + centerOffset
     }
-    let py: (CGFloat, CGFloat) -> CGFloat = { r, b in
-      r * (1.0 + sin(b))
+    let py: (CGFloat, CGFloat) -> CGFloat = { r, γ in
+      r * (1.0 + sin(γ)) + centerOffset
     }
 
-    let topLeft = CGPoint(
-      x: px(r, b1),
-      y: py(r, b1)
-    )
-    let middleRight = CGPoint(
-      x: px(r, b2),
-      y: py(r, b2)
-    )
-    let bottomLeft = CGPoint(
-      x: px(r, b3),
-      y: py(r, b3)
-    )
-
-    let transform = CGAffineTransform(
-      translationX: centerOffset,
-      y: centerOffset
-    )
+    let topLeft = CGPoint(x: px(r, γ₁), y: py(r, γ₁))
+    let middleRight = CGPoint(x: px(r, γ₂), y: py(r, γ₂))
+    let bottomLeft = CGPoint(x: px(r, γ₃), y: py(r, γ₃))
 
     let (path, offset) = CGPath.createTriangleWithVertices(
-      upperLeftCorner: topLeft.applying(transform),
-      rightCorner: middleRight.applying(transform),
-      lowerLeftCorner: bottomLeft.applying(transform),
+      upperLeftCorner: topLeft,
+      rightCorner: middleRight,
+      lowerLeftCorner: bottomLeft,
       cornerRadius: triangleCornerRadius
     )
 
