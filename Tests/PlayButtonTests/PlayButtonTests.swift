@@ -280,19 +280,34 @@ final class PlayButtonTests: XCTestCase {
     assertSnapshot(matching: button, as: .image)
   }
 
-  func testOpticalAlignment() {
-    let button = PlayButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+  func testTriangleOpticalAlignmentZeroCornerRadius() {
+    let button = PlayButton(frame: CGRect(x: 0, y: 0, width: 176, height: 176))
+		button.triangleCornerRadius = 0.0
     button.playBufferingBackgroundColor = .systemBlue
     button.playBufferingTintColor = .white
 
-    let circle = CircleView(frame: CGRect(origin: .zero, size: CGSize(width: 25, height: 25)))
+    let circle = CircleView(frame: CGRect(origin: .zero, size: CGSize(width: 102, height: 102)))
     button.addSubview(circle)
     circle.center = button.center
 
     windowView.addSubview(button)
 
-    assertSnapshot(matching: button, as: .image, named: "play_optical_alignment")
+    assertSnapshot(matching: button, as: .image, named: "triangle")
   }
+
+	func testTriangleOpticalAlignmentDefaultCornerRadius() {
+		let button = PlayButton(frame: CGRect(x: 0, y: 0, width: 176, height: 176))
+		button.playBufferingBackgroundColor = .systemBlue
+		button.playBufferingTintColor = .white
+
+		let circle = CircleView(frame: CGRect(origin: .zero, size: CGSize(width: 92, height: 92)))
+		button.addSubview(circle)
+		circle.center = button.center
+
+		windowView.addSubview(button)
+
+		assertSnapshot(matching: button, as: .image, named: "triangle")
+	}
 }
 
 private enum CompletionCondition {
