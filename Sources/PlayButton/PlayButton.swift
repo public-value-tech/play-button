@@ -473,23 +473,21 @@ public class PlayButton: UIButton {
   // ▶️
   /// The path of the triangle is only calculated when necessary and cached in ``currentTrianglePath``.
   private func updateTrianglePath() {
-    let γ₁ = -(deg2rad(180) - 2.0 * atan(1.0 / 2.0)) // top left
-    let γ₂ = CGFloat(0) // middle right
-    let γ₃ = deg2rad(180) - (2.0 * atan(1.0 / 2.0)) // bottom left
-
     let r: CGFloat = 5.0 / 8.0 * triangleWidth
-    let centerOffset = shapeWidth / 2.0 - r
+    let centerOffset = shapeWidth / 2.0
 
-    let px: (CGFloat, CGFloat) -> CGFloat = { r, γ in
-      r * (1.0 + cos(γ)) + centerOffset
-    }
-    let py: (CGFloat, CGFloat) -> CGFloat = { r, γ in
-      r * (1.0 + sin(γ)) + centerOffset
-    }
-
-    let topLeft = CGPoint(x: px(r, γ₁), y: py(r, γ₁))
-    let middleRight = CGPoint(x: px(r, γ₂), y: py(r, γ₂))
-    let bottomLeft = CGPoint(x: px(r, γ₃), y: py(r, γ₃))
+    let topLeft = CGPoint(
+      x: -3.0 / 8.0 * triangleWidth + centerOffset,
+      y: -triangleWidth / 2.0 + centerOffset
+    )
+    let middleRight = CGPoint(
+      x: r + centerOffset,
+      y: 0 + centerOffset
+    )
+    let bottomLeft = CGPoint(
+      x: topLeft.x,
+      y: triangleWidth / 2.0 + centerOffset
+    )
 
     let (path, offset) = CGPath.createTriangleWithVertices(
       upperLeftCorner: topLeft,
