@@ -29,7 +29,7 @@ let playButton = PlayButton() // defaults to CGSize(width: 44, height: 44)
 playButton.playBufferingBackgroundColor = .systemBlue
 playButton.pauseStopBackgroundColor = .systemBlue
 playButton.playBufferingTintColor = .white
-playButon.pauseStopTintColor = .white
+playButton.pauseStopTintColor = .white
 
 // Animate the mode update
 playButton.setMode(.stop, animated: true)
