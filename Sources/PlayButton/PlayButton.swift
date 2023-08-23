@@ -312,6 +312,10 @@ public class PlayButton: UIButton {
     setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     setContentCompressionResistancePriority(.defaultLow, for: .vertical)
 
+#if os(visionOS)
+    hoverStyle = UIHoverStyle(shape: .circle)
+#endif
+
     layer.addSublayer(scaleLayer)
 
     scaleLayer.masksToBounds = true
